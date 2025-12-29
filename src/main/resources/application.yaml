@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: Tech-Store
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Tech_Store
+    username: postgres
+    password: akash
