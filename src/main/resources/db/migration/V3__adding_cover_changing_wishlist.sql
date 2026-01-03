@@ -7,7 +7,7 @@ Alter Table wishlist
 
 -- Drop existing foreign keys
 ALTER TABLE public.wishlist
-DROP CONSTRAINT wishlist_products_id_fk,
+    DROP CONSTRAINT wishlist_products_id_fk,
     DROP CONSTRAINT wishlist_users_id_fk;
 
 -- Add new foreign keys with ON DELETE CASCADE

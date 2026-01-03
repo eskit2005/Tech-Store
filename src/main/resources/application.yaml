@@ -3,6 +3,14 @@ spring:
     name: Tech-Store
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/Tech_Store
+    url: jdbc:postgresql://localhost:5432/tech_store
     username: postgres
     password: akash
+
+  jpa:
+    show-sql: true
+
+  jwt:
+    secret: ${JWT_SECRET}
+    accessTokenExpiration: 300 # 5m
+    refreshTokenExpiration: 604800 # 7d
