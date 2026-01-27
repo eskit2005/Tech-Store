@@ -1,4 +1,8 @@
+import { useContext } from "react";
 import { API_BASE_URL } from "../config/apiConfig";
+
+import { AuthContext } from "../auth/authContext";
+
 export async function login(email, password) {
     console.log(`API_BASE_URL:${API_BASE_URL}`);
     const res = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -41,4 +45,26 @@ export async function logout(authfetch) {
   if (!res.ok) {
     throw new Error("Logout failed");
   }
+}
+
+export async function persistReload(setAccessToken, setUser) {
+  const res = await fetch(`${API_BASE_URL}/auth/refresh`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error("Cookie expired or user not signed in");
+
+  const { accessToken } = await res.json();
+  setAccessToken(accessToken);
+
+  const userRes = await fetch(`${API_BASE_URL}/auth/me`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!userRes.ok) throw new Error("Couldn't verify user");
+
+  const user = await userRes.json();
+  setUser(user);
 }

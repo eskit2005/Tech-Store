@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthContext } from "./auth/authContext";
 import Homepage from "./pages/Homepage/Homepage";
@@ -7,10 +7,23 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import Wishlist from "./pages/Wishlist/Wishlist";
+import { persistReload } from "./domain/authService";
 
 function App() {
   const [accessToken, setAccessToken] = useState(null);
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const reload = async () => {
+      try {
+        await persistReload(setAccessToken, setUser);
+      } catch (err) {
+        console.log("User not authenticated");
+      }
+    };
+
+    reload();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ accessToken, setAccessToken, user, setUser }}>
@@ -27,4 +40,3 @@ function App() {
 }
 
 export default App;
-
