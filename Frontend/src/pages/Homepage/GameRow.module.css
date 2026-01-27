@@ -1,10 +1,11 @@
 .section {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .row {
+  margin-top:8px;
   display: flex;
   gap: 12px;
   overflow-x: auto;
-  height: 15vh;
+  height: 25vh;
 }
