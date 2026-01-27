@@ -18,9 +18,8 @@ public class AddProductRequest {
     @NotBlank
     @Size(min = 1, max = 1000)
     private final String title;
-
+    @NotNull
     private final String cover_url;
-
     @NotNull
     @Min(0)
     private final int price;

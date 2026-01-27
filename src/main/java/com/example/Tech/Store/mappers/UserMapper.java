@@ -4,12 +4,14 @@ import com.example.Tech.Store.dtos.AddUserRequest;
 import com.example.Tech.Store.dtos.UserDto;
 import com.example.Tech.Store.entities.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
     User toEntity(AddUserRequest request);
 
+    @Mapping(source="role", target="role")
     UserDto toDto(User user);
 
     User toEntity(UserDto userDto);

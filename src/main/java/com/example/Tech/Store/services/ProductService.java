@@ -1,17 +1,23 @@
 package com.example.Tech.Store.services;
 import com.example.Tech.Store.dtos.AddProductRequest;
+import com.example.Tech.Store.dtos.CategoryDto;
 import com.example.Tech.Store.dtos.ProductDto;
+import com.example.Tech.Store.entities.Category;
 import com.example.Tech.Store.entities.Product;
+import com.example.Tech.Store.mappers.CategoryMapper;
 import com.example.Tech.Store.mappers.ProductMapper;
 import com.example.Tech.Store.repositories.CategoryRepository;
 import com.example.Tech.Store.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -19,9 +25,10 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductMapper productMapper;
+    private final CategoryMapper categoryMapper;
 
     @Transactional
-    public ProductDto addProduct(AddProductRequest productRequest) {
+    public ProductDto addProduct(@Valid AddProductRequest productRequest) {
         var category = categoryRepository.findById(productRequest.getCategoryId()).orElse(null);
         if(category == null) throw new RuntimeException("Category not found, product can't be added.Please provide a valid category id");
         var product = new Product();
@@ -79,11 +86,25 @@ public class ProductService {
         if (product == null)  throw new RuntimeException("Product not found");
         return productMapper.toDto(product);
     }
+
     @Transactional
-    public ProductDto getProductByName(String product_title) {
-        var product=productRepository.findProductByTitle(product_title).orElse(null);
-        if (product == null)  throw new RuntimeException("Product not found");
-        return productMapper.toDto(product);
+    public Set<ProductDto> getProductByName(String product_title) {
+        List<Product> products=productRepository.findByTitleStartingWithIgnoreCase(product_title);
+        if (products.isEmpty())  throw new RuntimeException("Product not found");
+        return products
+                .stream()
+                .map(product-> productMapper.toDto(product))
+                .collect(Collectors.toSet());
+
+    }
+
+    public Set<CategoryDto> getAllCategories() {
+        List<Category> categories=categoryRepository.findAll();
+        if (categories.isEmpty())  throw new RuntimeException("Category not found");
+        return categories
+                .stream()
+                .map(category -> categoryMapper.toDto(category))
+                .collect(Collectors.toSet());
     }
 
     @Transactional
@@ -101,4 +122,7 @@ public class ProductService {
         }
         return productDtos;
     }
+
+
+
 }

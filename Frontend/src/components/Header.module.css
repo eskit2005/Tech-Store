@@ -1,0 +1,63 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: rgba(30, 41, 59, 0.9); /* semi-transparent, flat */
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #38bdf8;
+  letter-spacing: 1px;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.link {
+  position: relative; /* for ::after underline */
+  text-decoration: none;
+  color: #cbd5f5;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  transition: color 0.2s ease;
+}
+
+/* Hover underline animation */
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* slightly below text */
+  width: 0%;
+  height: 2px;
+  background-color: #38bdf8;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.link:hover::after {
+  width: 100%;
+}
+
+.link:hover {
+  color: #fff;
+}
+
+/* Active link */
+.active {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* Active underline always visible */
+.active::after {
+  width: 100%;
+}

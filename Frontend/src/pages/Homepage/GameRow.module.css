@@ -1,0 +1,10 @@
+.section {
+  margin-bottom: 25px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  height: 15vh;
+}

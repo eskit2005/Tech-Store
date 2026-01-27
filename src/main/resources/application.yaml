@@ -2,6 +2,7 @@ spring:
   application:
     name: Tech-Store
 
+
   datasource:
     url: jdbc:postgresql://localhost:5432/tech_store
     username: postgres

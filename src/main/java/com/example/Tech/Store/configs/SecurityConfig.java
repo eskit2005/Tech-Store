@@ -1,7 +1,8 @@
-package com.example.Tech.Store.config;
+package com.example.Tech.Store.configs;
 
+import com.example.Tech.Store.entities.Role;
+import com.example.Tech.Store.entities.User;
 import com.example.Tech.Store.filters.JwtAuthenticationFilter;
-import jakarta.servlet.Filter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,19 +60,22 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/product/add").hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.DELETE,"/product/remove").hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.POST,"/product/update").hasRole(Role.ADMIN.name())
                         .requestMatchers("/product/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST,"/User/add").permitAll()
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/auth/me").authenticated()
-                        .requestMatchers(HttpMethod.POST,"/product/add").hasRole("User")
-                        .requestMatchers(HttpMethod.POST,"/product/remove").hasRole("User")
-                        .requestMatchers(HttpMethod.POST,"/product/update").hasRole("User")
+                        .requestMatchers(HttpMethod.GET,"/auth/refresh").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(c ->
-                        c.authenticationEntryPoint(
-                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
+                .exceptionHandling(c -> {
+                    c.authenticationEntryPoint(
+                            new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+                    c.accessDeniedHandler(((request, response, accessDeniedException) ->
+                            response.setStatus(HttpStatus.FORBIDDEN.value())));
+                });
         return http.build();
 
     }

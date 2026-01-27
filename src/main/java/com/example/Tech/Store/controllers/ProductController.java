@@ -1,5 +1,6 @@
 package com.example.Tech.Store.controllers;
 import com.example.Tech.Store.dtos.AddProductRequest;
+import com.example.Tech.Store.dtos.CategoryDto;
 import com.example.Tech.Store.dtos.ProductDto;
 import com.example.Tech.Store.dtos.RemoveProductRequest;
 import com.example.Tech.Store.services.ProductService;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,7 +26,7 @@ public class ProductController {
                 .body(productService.addProduct(productRequest));
     }
 
-    @PostMapping("/remove")
+    @DeleteMapping("/remove")
     public ResponseEntity<Void> removeProduct(@RequestBody RemoveProductRequest productRequest ){
         productService.removeProduct(productRequest.getName(),productRequest.getId());
         return ResponseEntity
@@ -48,7 +50,7 @@ public class ProductController {
     }
 
     @GetMapping("/{product_id}")
-    public ResponseEntity<ProductDto> getProductByTitle(@PathVariable UUID product_id){
+    public ResponseEntity<ProductDto> getProductByID(@PathVariable UUID product_id){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productService.getProduct(product_id));
@@ -56,7 +58,7 @@ public class ProductController {
     }
 
     @GetMapping("/name")
-    public ResponseEntity<ProductDto> getProductByTitle(@RequestParam String product_title){
+    public ResponseEntity<Set<ProductDto>> getProductByTitle(@RequestParam String product_title){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productService.getProductByName(product_title));
@@ -69,6 +71,16 @@ public class ProductController {
                 .ok()
                 .body(productService.getProductByCategory(Category_id));
     }
+
+    @GetMapping("/category/all")
+    public ResponseEntity<Set<CategoryDto>> getCategories(){
+        return ResponseEntity
+                .ok()
+                .body(productService.getAllCategories());
+
+    }
+
+
 
 
 

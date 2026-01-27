@@ -2,6 +2,7 @@ package com.example.Tech.Store.controllers;
 import com.example.Tech.Store.dtos.AddUserRequest;
 import com.example.Tech.Store.dtos.EmailRequest;
 import com.example.Tech.Store.dtos.UserDto;
+import com.example.Tech.Store.exceptions.UserAlreadyExistsException;
 import com.example.Tech.Store.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -57,6 +59,14 @@ public class UserController {
         return ResponseEntity
                 .ok()
                 .body(userService.getUserByEmail(emailRequest.getEmail()));
+    }
+
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Map<String,String>> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_CONTENT)
+                .body(Map.of("error", e.getMessage()));
     }
 
 

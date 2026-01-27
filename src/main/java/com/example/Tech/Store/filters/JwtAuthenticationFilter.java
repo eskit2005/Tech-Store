@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @AllArgsConstructor
 @Component
@@ -36,7 +38,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         };
 
         UserDetails user=userDetailsService.loadUserByUsername(jwtService.getEmailFromToken(token));
-        UsernamePasswordAuthenticationToken authentication=new UsernamePasswordAuthenticationToken(jwtService.getUserIdFromToken(token),null,user.getAuthorities());
+        UsernamePasswordAuthenticationToken authentication=new UsernamePasswordAuthenticationToken(jwtService.getUserIdFromToken(token),null,
+                List.of(new SimpleGrantedAuthority("ROLE_"+jwtService.getRoleFromToken(token))));
         authentication.setDetails(
                 new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);

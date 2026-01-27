@@ -1,0 +1,64 @@
+.userMenu {
+  position: relative;
+}
+
+.username {
+  background: none;
+  border: none;
+  color: #38bdf8;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 12px;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.username:hover {
+  color: #ffffff;
+}
+
+.dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: linear-gradient(180deg, #1e293b, #020617);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.dropdown button {
+  background: none;
+  border: none;
+  color: #cbd5f5;
+  padding: 12px 16px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Admin button emphasis */
+.admin {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.admin:hover {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #ffffff;
+}
+
+/* Logout button */
+.logout {
+  color: #f87171;
+}
+
+.logout:hover {
+  background-color: rgba(248, 113, 113, 0.15);
+  color: #ffffff;
+}

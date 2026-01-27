@@ -2,9 +2,13 @@ package com.example.Tech.Store.services;
 
 import com.example.Tech.Store.dtos.AddUserRequest;
 import com.example.Tech.Store.dtos.UserDto;
+import com.example.Tech.Store.entities.Role;
+import com.example.Tech.Store.exceptions.UserAlreadyExistsException;
 import com.example.Tech.Store.mappers.UserMapper;
 import com.example.Tech.Store.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +20,21 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public UserDto createUser(AddUserRequest addUserRequest) {
+        var errorUser=userRepository.findByEmail(addUserRequest.getEmail());
+        if(errorUser.isPresent()){ throw new UserAlreadyExistsException("User already exists"); }
         var user=userMapper.toEntity(addUserRequest);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        if (addUserRequest.getEmail().endsWith("@g.bracu.ac.bd")) {
+            user.setRole(Role.ADMIN);
+        } else {
+            user.setRole(Role.USER);
+        }
         userRepository.save(user);
+        System.out.println(userMapper.toDto(user).toString());
         return userMapper.toDto(user);
     }
 

@@ -13,7 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     Optional<Product> findById(UUID id);
 
-    Optional<Product> findProductByTitle(String title);
+    List<Product> findByTitleStartingWithIgnoreCase(String title);
 
     @Query("Select p from Product p order by p.title desc")
     @Override
