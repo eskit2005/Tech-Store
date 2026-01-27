@@ -23,7 +23,7 @@ export async function removeFromWishlist(authFetch, productId) {
 }
 
 export async function checkingishlist(authFetch,productId,userId){
-    const res = await authFetch("/wishlist/checking", {
+    const res = await authFetch(`${API_BASE_URL}/wishlist/checking`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

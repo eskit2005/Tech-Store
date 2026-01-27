@@ -12,7 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "wishlist")
 public class Wishlist {
     @EmbeddedId
-    private WishlistId id;
+    private WishlistId id=new WishlistId();
 
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY)

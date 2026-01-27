@@ -121,3 +121,14 @@
   color: #f87171;
   font-size: 1.2rem;
 }
+
+/* ACTIVE WISHLIST */
+.activeWishlist {
+  background: rgba(248, 113, 113, 0.15);
+  border-color: rgba(248, 113, 113, 0.45);
+  color: #f87171;
+}
+
+.activeWishlist:hover {
+  background: rgba(248, 113, 113, 0.25);
+}

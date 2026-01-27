@@ -6,6 +6,7 @@ import com.example.Tech.Store.entities.Wishlist;
 import com.example.Tech.Store.mappers.WishlistMapper;
 import com.example.Tech.Store.repositories.ProductRepository;
 import com.example.Tech.Store.repositories.WishlistRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class WishlistService {
         wishlistRepository.save(wishlist);
     }
 
+    @Transactional
     public void removeProductWishlist(ProductWishlist productWishlist) {
         var product_id= productWishlist.getProductId();
         var product=productRepository.findById(product_id).orElseThrow(()->new RuntimeException("Product not found"));
