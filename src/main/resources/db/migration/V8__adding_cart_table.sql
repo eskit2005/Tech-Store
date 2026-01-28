@@ -1,6 +1,6 @@
 create table public.cart
 (
-    id           uuid default uuidv4()     not null
+    id           uuid default gen_random_uuid()     not null
         constraint cart_pk
             primary key,
     data_created date default current_date not null
