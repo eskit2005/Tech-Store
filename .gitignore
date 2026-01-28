@@ -34,4 +34,5 @@ build/
 ### VS Code ###
 .vscode/
 
+### Removing the frontend folder
 /Frontend/

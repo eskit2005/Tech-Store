@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tech_store
+    username: postgres
+    password: akash
+
+  jpa:
+    show-sql: true
